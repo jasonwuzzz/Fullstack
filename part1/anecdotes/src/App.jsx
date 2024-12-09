@@ -53,6 +53,7 @@ const App = () => {
     }
   }
 
+
   return (
     <>
       <h1>Anecdote of the day</h1>
