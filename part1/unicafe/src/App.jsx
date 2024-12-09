@@ -12,17 +12,44 @@ const Button = (prop) => {
   )
 }
 
-const Feedback = (prop) => {
+const StatisticLine = (prop) => {
   return (
-    <div>{prop.name} {prop.num}</div>
+    <tr>
+      <td>{prop.text}</td>
+      <td>{prop.value}</td>
+    </tr>
   )
+}
+
+const Statistics = (prop) => {
+  const { good, neutral, bad} = prop;
+  const all = good + neutral + bad;
+  const sum = good - bad;
+  if (all) {
+    return (
+      <table>
+        <tbody>
+          <StatisticLine text='good' value={good}/>
+          <StatisticLine text='neutral' value={neutral}/>
+          <StatisticLine text='bad' value={bad}/>
+          <StatisticLine text="all" value={all} />
+          <StatisticLine text='average' value={sum/all} />
+          <StatisticLine text='positive' value={String(good/all * 100) + ' %'} />
+        </tbody>
+      </table>
+    );
+  } else {
+    return (
+      <div>No feedback given</div>
+    )
+  }
 }
 
 const App = () => {
   // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
   return (
     <div>
@@ -31,9 +58,7 @@ const App = () => {
       <Button onClick={() => setNeutral(neutral + 1)} name='neutral'/>
       <Button onClick={() => setBad(bad + 1)} name='bad'/>
       <Header name='statistics' />
-      <Feedback name='good' num={good}/>
-      <Feedback name='neutral' num={neutral}/>
-      <Feedback name='bad' num={bad}/>
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
